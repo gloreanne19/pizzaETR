@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sale } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
+import { AdminTableSkeleton } from '@/components/Skeletons';
 
 interface SalesSummary {
   totalRevenue: number;
@@ -239,7 +240,7 @@ export default function AdminSalesPage() {
           Sales Transactions ({sales.length})
         </h2>
         {loading ? (
-          <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading sales...</p>
+          <AdminTableSkeleton rows={5} columns={6} />
         ) : sales.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#888', padding: '2rem 0' }}>No sales recorded for the selected period</p>
         ) : (

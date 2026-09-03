@@ -8,6 +8,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { HeartIcon, SearchIcon, ArrowLeftIcon } from '@/components/Icons';
 import { getImageUrl } from '@/lib/image-helper';
+import { LazyImage } from '@/components/LazyImage';
+import { ProductGridSkeleton } from '@/components/Skeletons';
 
 function MenuContent() {
   const router = useRouter();
@@ -474,7 +476,7 @@ function MenuContent() {
 
           {/* 4-Column Product Grid */}
           {loading ? (
-            <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading items...</p>
+            <ProductGridSkeleton count={8} />
           ) : products.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 1.5rem', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ marginTop: '0.5rem', color: '#1e293b', fontWeight: 800 }}>No {selectedCategory.toLowerCase()} found</h3>
@@ -569,17 +571,17 @@ function MenuContent() {
                     </span>
                   )}
 
-                  <img
-                    src={getImageUrl(product.image)}
-                    alt={product.name}
-                    style={{
-                      width: '100%',
-                      height: '180px',
-                      objectFit: 'contain',
-                      marginBottom: '0.75rem',
-                      opacity: product.status && product.status !== 'available' ? 0.65 : 1,
-                    }}
-                  />
+                  <div style={{ marginBottom: '0.75rem', width: '100%' }}>
+                    <LazyImage
+                      src={product.image}
+                      alt={product.name}
+                      aspectRatio="1/1"
+                      style={{
+                        maxHeight: '180px',
+                        opacity: product.status && product.status !== 'available' ? 0.65 : 1,
+                      }}
+                    />
+                  </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0.35rem' }}>
                     <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#008C3B', backgroundColor: '#f0fdf4', padding: '2px 8px', borderRadius: '4px' }}>

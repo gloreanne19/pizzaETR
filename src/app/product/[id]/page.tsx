@@ -9,6 +9,8 @@ import { useToast } from '@/context/ToastContext';
 import { HeartIcon } from '@/components/Icons';
 import { AddToCartModal, AddedCartItem } from '@/components/AddToCartModal';
 import { getImageUrl } from '@/lib/image-helper';
+import { LazyImage } from '@/components/LazyImage';
+import { ProductDetailSkeleton } from '@/components/Skeletons';
 
 interface ProductDetailPageProps {
   params: {
@@ -250,11 +252,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   };
 
   if (loading) {
-    return (
-      <div className="container" style={{ padding: '6rem 1.5rem', textAlign: 'center' }}>
-        <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Loading product details...</p>
-      </div>
-    );
+    return <ProductDetailSkeleton />;
   }
 
   if (!product) {
@@ -356,16 +354,17 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               <HeartIcon size={22} fill={isFavorite ? '#dc2626' : 'none'} />
             </button>
 
-            <img
-              src={getImageUrl(product.image)}
-              alt={product.name}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '320px',
-                objectFit: 'contain',
-                opacity: !isAvailable ? 0.6 : 1,
-              }}
-            />
+            <div style={{ width: '100%', maxWidth: '340px' }}>
+              <LazyImage
+                src={product.image}
+                alt={product.name}
+                aspectRatio="1/1"
+                style={{
+                  maxHeight: '320px',
+                  opacity: !isAvailable ? 0.6 : 1,
+                }}
+              />
+            </div>
           </div>
           <span style={{
             marginTop: '1rem',

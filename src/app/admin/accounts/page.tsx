@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Admin } from '@/types/database';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
+import { AdminTableSkeleton } from '@/components/Skeletons';
 
 export default function AdminAccountsPage() {
   const [admins, setAdmins] = useState<Admin[]>([]);
@@ -174,7 +175,7 @@ export default function AdminAccountsPage() {
 
       <div className="table-container">
         {loading ? (
-          <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading administrators...</p>
+          <AdminTableSkeleton rows={4} columns={3} />
         ) : admins.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#888', padding: '2rem 0' }}>No admin accounts found</p>
         ) : (

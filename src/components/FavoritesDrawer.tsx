@@ -7,6 +7,7 @@ import { useToast } from '@/context/ToastContext';
 import { Favorite } from '@/types/database';
 import { HeartIcon, TrashIcon } from './Icons';
 import { getImageUrl } from '@/lib/image-helper';
+import { LazyImage } from './LazyImage';
 
 interface FavoritesDrawerProps {
   isOpen: boolean;
@@ -99,7 +100,17 @@ export const FavoritesDrawer: React.FC<FavoritesDrawerProps> = ({ isOpen, onClos
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
           {loading ? (
-            <p style={{ textAlign: 'center', color: '#888' }}>Loading favorites...</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {[1, 2, 3].map((i) => (
+                <div key={i} style={{ display: 'flex', gap: '1rem', padding: '0.75rem', border: '1px solid #eee', borderRadius: '8px', alignItems: 'center' }}>
+                  <div className="skeleton" style={{ width: '60px', height: '60px', borderRadius: '6px', flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <div className="skeleton" style={{ width: '70%', height: '18px', marginBottom: '6px', borderRadius: '4px' }} />
+                    <div className="skeleton" style={{ width: '40%', height: '16px', borderRadius: '4px' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : favorites.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#888', marginTop: '3rem' }}>
               <p style={{ marginTop: '1rem', fontWeight: 600, color: '#475569' }}>No favorites added yet!</p>
@@ -126,11 +137,14 @@ export const FavoritesDrawer: React.FC<FavoritesDrawerProps> = ({ isOpen, onClos
                     borderRadius: '8px',
                   }}
                 >
-                  <img
-                    src={getImageUrl(fav.image)}
-                    alt={fav.name}
-                    style={{ width: '60px', height: '60px', objectFit: 'contain' }}
-                  />
+                  <div style={{ width: '60px', height: '60px', flexShrink: 0 }}>
+                    <LazyImage
+                      src={fav.image}
+                      alt={fav.name}
+                      aspectRatio="1/1"
+                      style={{ width: '60px', height: '60px', objectFit: 'contain' }}
+                    />
+                  </div>
                   <div style={{ flex: 1 }}>
                     <h4 style={{ fontSize: '1rem', color: '#222' }}>{fav.name}</h4>
                     <p style={{ color: '#008C3B', fontWeight: 700 }}>₱{Number(fav.price).toFixed(2)}</p>
