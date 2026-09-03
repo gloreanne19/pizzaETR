@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DashboardAnalytics } from '@/server/services/dashboard-service';
-import { AdminDashboardSkeleton } from '@/components/Skeletons';
 
 // Reusable Info Tooltip Component
 function InfoTooltip({ text }: { text: string }) {
@@ -95,7 +94,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   if (loading) {
-    return <AdminDashboardSkeleton />;
+    return <p style={{ color: '#666', padding: '3rem 0', textAlign: 'center' }}>Loading dashboard analytics...</p>;
   }
 
   const statCards = [
