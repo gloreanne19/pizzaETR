@@ -1,19 +1,2 @@
-# Environment variables
-.env
-.env*.local
 
-# Dependencies
-node_modules/
-
-# Next.js build output
-.next/
-out/
-
-# TypeScript build info
-*.tsbuildinfo
-
-# IDE & Editor files
-.DS_Store
 .codegpt
-.vscode/
-.idea/
