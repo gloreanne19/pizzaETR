@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Order, OrderItem } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
-import { AdminTableSkeleton } from '@/components/Skeletons';
 
 interface OrderWithItems extends Order {
   items?: OrderItem[];
@@ -337,7 +336,7 @@ function AdminOrdersContent() {
       {/* Orders Table */}
       <div className="table-container">
         {loading && orders.length === 0 ? (
-          <AdminTableSkeleton rows={6} columns={8} />
+          <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading orders...</p>
         ) : orders.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>No customer orders found matching your filters</p>
         ) : (

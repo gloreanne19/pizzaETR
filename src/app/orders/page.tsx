@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Order, OrderItem } from '@/types/database';
 import { useAuth } from '@/context/AuthContext';
-import { OrderCardSkeleton } from '@/components/Skeletons';
 
 interface OrderWithItems extends Order {
   items?: OrderItem[];
@@ -49,8 +48,6 @@ export default function OrdersPage() {
     switch (status) {
       case 'pending':
         return { label: 'Pending Review', bg: '#fef3c7', color: '#92400e', border: '#fde68a' };
-      case 'preparing':
-        return { label: 'Baking & Preparing', bg: '#e0f2fe', color: '#0369a1', border: '#bae6fd' };
       case 'ready':
         return {
           label: order.order_type === 'pickup' ? 'Ready for Pickup' : 'En Route',
@@ -68,15 +65,11 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 1.5rem', maxWidth: '900px' }}>
+    <div className="container" style={{ padding: '3rem 1.5rem' }}>
       <h1 className="heading">My <span>Order History</span></h1>
 
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <OrderCardSkeleton />
-          <OrderCardSkeleton />
-          <OrderCardSkeleton />
-        </div>
+        <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading your orders...</p>
       ) : orders.length === 0 ? (
         <div style={{ textAlign: 'center', background: '#fff', padding: '4rem 2rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
           <h3 style={{ marginTop: '1rem', color: '#1e293b', fontWeight: 800 }}>No orders placed yet</h3>

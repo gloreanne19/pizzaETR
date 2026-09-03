@@ -8,8 +8,6 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { TrashIcon, CartIcon } from '@/components/Icons';
 import { getImageUrl } from '@/lib/image-helper';
-import { LazyImage } from '@/components/LazyImage';
-import { CartPageSkeleton } from '@/components/Skeletons';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -313,39 +311,29 @@ export default function CartPage() {
     );
   }
 
-  if (loading) {
-    return <CartPageSkeleton />;
-  }
-
   return (
     <div className="container" style={{ padding: '3rem 1.5rem' }}>
       <h1 className="heading">Your Shopping <span>Cart</span></h1>
 
-      {cartItems.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem 1.5rem', background: '#fff', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', color: '#008C3B' }}>
-            <CartIcon size={64} />
-          </div>
-          <h2 style={{ fontSize: '1.8rem', color: '#1e293b', marginBottom: '0.75rem', fontWeight: 800 }}>Your Cart is Empty</h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginBottom: '2rem' }}>
-            Looks like you haven't added any fresh handmade pizzas yet!
-          </p>
-          <Link href="/menu" className="btn" style={{ padding: '0.85rem 2.5rem', fontSize: '1.05rem' }}>
-            Explore Our Menu &rarr;
+      {loading ? (
+        <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading your cart...</p>
+      ) : cartItems.length === 0 ? (
+        <div style={{ textAlign: 'center', background: '#fff', padding: '4rem 2rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+          <h3 style={{ marginTop: '1rem', color: '#1e293b', fontWeight: 800 }}>Your cart is currently empty</h3>
+          <p style={{ color: '#64748b', marginTop: '0.5rem' }}>Discover our freshly prepared food catalog and customize your order!</p>
+          <Link href="/menu" className="btn" style={{ marginTop: '2rem' }}>
+            Browse Menu &rarr;
           </Link>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', alignItems: 'start' }}>
-          {/* Left Column: Cart Item List */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2.5rem' }}>
+          {/* Left Column: Cart Items List */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h2 style={{ fontSize: '1.4rem', color: '#1e293b', fontWeight: 800 }}>
-                Order Items ({cartItems.length})
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#222' }}>
+                Cart Items ({cartItems.length})
               </h2>
-              <button
-                onClick={clearCart}
-                style={{ background: 'none', border: 'none', color: '#e74c3c', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
-              >
+              <button onClick={clearCart} style={{ background: 'none', color: '#e74c3c', fontWeight: 600, cursor: 'pointer', border: 'none' }}>
                 Clear All
               </button>
             </div>
@@ -364,14 +352,11 @@ export default function CartPage() {
                     alignItems: 'center',
                   }}
                 >
-                  <div style={{ width: '80px', height: '80px', flexShrink: 0 }}>
-                    <LazyImage
-                      src={item.image}
-                      alt={item.name}
-                      aspectRatio="1/1"
-                      style={{ width: '80px', height: '80px', objectFit: 'contain' }}
-                    />
-                  </div>
+                  <img
+                    src={getImageUrl(item.image)}
+                    alt={item.name}
+                    style={{ width: '80px', height: '80px', objectFit: 'contain' }}
+                  />
 
                   <div style={{ flex: 1 }}>
                     <h3 style={{ fontSize: '1.15rem', color: '#222', fontWeight: 800 }}>{item.name}</h3>

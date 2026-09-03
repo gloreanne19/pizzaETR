@@ -5,8 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { Product, ProductStatus, OptionGroup, OptionChoice } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
 import { getImageUrl } from '@/lib/image-helper';
-import { LazyImage } from '@/components/LazyImage';
-import { AdminTableSkeleton } from '@/components/Skeletons';
 
 interface CategoryDetail {
   id?: number;
@@ -559,9 +557,7 @@ function AdminProductsContent() {
         overflow: 'hidden',
       }}>
         {loading ? (
-          <div style={{ padding: '1.5rem' }}>
-            <AdminTableSkeleton rows={6} columns={6} />
-          </div>
+          <p style={{ padding: '3rem', textAlign: 'center', color: '#888' }}>Loading products catalog...</p>
         ) : filteredProducts.length === 0 ? (
           <div style={{ padding: '4rem 2rem', textAlign: 'center', color: '#888' }}>
             <h3 style={{ color: '#333' }}>No products found</h3>
@@ -599,14 +595,11 @@ function AdminProductsContent() {
                     }}
                   >
                     <td style={{ padding: '0.75rem 1rem' }}>
-                      <div style={{ width: '48px', height: '48px', flexShrink: 0 }}>
-                        <LazyImage
-                          src={p.image}
-                          alt={p.name}
-                          aspectRatio="1/1"
-                          style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '6px' }}
-                        />
-                      </div>
+                      <img
+                        src={getImageUrl(p.image)}
+                        alt={p.name}
+                        style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '6px' }}
+                      />
                     </td>
                     <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#1e293b' }}>
                       {p.name}

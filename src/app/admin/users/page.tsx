@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '@/types/database';
 import { useToast } from '@/context/ToastContext';
-import { AdminTableSkeleton } from '@/components/Skeletons';
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -141,7 +140,7 @@ export default function AdminUsersPage() {
 
       <div className="table-container">
         {loading ? (
-          <AdminTableSkeleton rows={5} columns={4} />
+          <p style={{ textAlign: 'center', color: '#888', padding: '3rem 0' }}>Loading customer accounts...</p>
         ) : filteredUsers.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#888', padding: '2rem 0' }}>No customer accounts found</p>
         ) : (
